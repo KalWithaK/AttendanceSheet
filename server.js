@@ -41,27 +41,6 @@ function handleError(res, reason, message, code) {
  */
 
 app.get("/api/attendance", function(req, res) {
-});
-
-app.post("/api/attendance", function(req, res) {
-});
-
-/*  "/api/attendance/:id"
- *    GET: find student by id
- *    PUT: update student by id
- *    DELETE: deletes student by id
- */
-
-app.get("/api/attendance/:id", function(req, res) {
-});
-
-app.put("/api/attendance/:id", function(req, res) {
-});
-
-app.delete("/api/attendance/:id", function(req, res) {
-});
-
- app.get("/api/attendance", function(req, res) {
    db.collection(CLASS_COLLECTION).find({}).toArray(function(err, docs) {
      if (err) {
        handleError(res, err.message, "Failed to get contacts.");
@@ -87,3 +66,20 @@ app.delete("/api/attendance/:id", function(req, res) {
      });
    }
  });
+
+/*  "/api/attendance/:id"
+ *    GET: find student by id
+ *    PUT: update student by id
+ *    DELETE: deletes student by id
+ */
+
+app.get("/api/attendance/:id", function(req, res) {
+});
+
+app.put("/api/attendance/:id", function(req, res) {
+});
+
+app.delete("/api/attendance/:id", function(req, res) {
+});
+
+ 
