@@ -1,0 +1,25 @@
+<div *ngIf="student" class="row">
+  <div class="col-md-12">
+    <h2 *ngIf="student._id">Student Details</h2>
+    <h2 *ngIf="!student._id">New Student</h2>
+  </div>
+</div>
+<div *ngIf="student" class="row">
+  <form class="col-md-12">
+    <div class="form-group">
+      <label for="student-name">Name</label>
+      <input class="form-control" name="student-name" [(ngModel)]="student.name" placeholder="Name"/>
+    </div>
+    <div class="form-group">
+      <label for="student-email">Email</label>
+      <input class="form-control" name="student-email" [(ngModel)]="student.email" placeholder="support@mlab.com"/>
+    </div>
+    <div class="form-group">
+      <label for="student-present">Present</label>
+      <input class="form-control" name="studne-present" [(ngModel)]="student.present" placeholder=""/>
+    </div>
+    <button class="btn btn-primary" *ngIf="!student._id" (click)="createStudent(student)">Create</button>
+    <button class="btn btn-info" *ngIf="student._id" (click)="updateStudent(student)">Update</button>
+    <button class="btn btn-danger" *ngIf="student._id" (click)="deleteStudent(student._id)">Delete</button>
+  </form>
+</div>
