@@ -20,5 +20,24 @@ export class StudentDetailsComponent{
 
   constructor(private studentService: StudentService) { }
 
+  createStudent(student: Student) {
+    this.studentService.createStudent(student).then((newStudent: Student) => {
+      this.createHandler(newStudent);
+    });
+  }
 
+  updateStudent(student: Student): void {
+    this.studentService.updateStudent(student).then((updatedStudent: Student) => {
+      this.updateHandler(updatedStudent);
+    });
+  }
+
+  deleteStudent(studentId: String): void {
+    this.studentService.deleteStudent(studentId).then((deletedStudentId: String) => {
+      this.deleteHandler(deletedStudentId);
+    });
+  }
+  
 }
+
+
