@@ -8,6 +8,7 @@ var CLASS_COLLECTION = "attendance";
 var app = express();
 app.use(bodyParser.json());
 
+
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
@@ -28,7 +29,6 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || "mongodb://localhost:2701
     console.log("App now running on port", port);
   });
 });
-
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
@@ -40,7 +40,7 @@ function handleError(res, reason, message, code) {
  *    POST: create a new student
  */
 
-app.get("/api/attendance", function(req, res) {
+ app.get("/api/attendance", function(req, res) {
    db.collection(CLASS_COLLECTION).find({}).toArray(function(err, docs) {
      if (err) {
        handleError(res, err.message, "Failed to get contacts.");
@@ -50,7 +50,7 @@ app.get("/api/attendance", function(req, res) {
    });
  });
 
-  app.post("/api/attendance", function(req, res) {
+ app.post("/api/attendance", function(req, res) {
    var newStudent = req.body;
    newStudent.createDate = new Date();
 
@@ -73,13 +73,36 @@ app.get("/api/attendance", function(req, res) {
  *    DELETE: deletes student by id
  */
 
-app.get("/api/attendance/:id", function(req, res) {
-});
+ app.get("/api/attendance/:id", function(req, res) {
+   db.collection(CLASS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
+     if (err) {
+       handleError(res, err.message, "Failed to get contact");
+     } else {
+       res.status(200).json(doc);
+     }
+   });
+ });
 
-app.put("/api/attendance/:id", function(req, res) {
-});
+ app.put("/api/attendance/:id", function(req, res) {
+   var updateDoc = req.body;
+   delete updateDoc._id;
 
-app.delete("/api/attendance/:id", function(req, res) {
-});
+   db.collection(CLASS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, function(err, doc) {
+     if (err) {
+       handleError(res, err.message, "Failed to update contact");
+     } else {
+       updateDoc._id = req.params.id;
+       res.status(200).json(updateDoc);
+     }
+   });
+ });
 
- 
+ app.delete("/api/attendance/:id", function(req, res) {
+   db.collection(CLASS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
+     if (err) {
+       handleError(res, err.message, "Failed to delete contact");
+     } else {
+       res.status(200).json(req.params.id);
+     }
+   });
+ });
