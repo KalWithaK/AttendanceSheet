@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Student } from './student';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class StudentService {
